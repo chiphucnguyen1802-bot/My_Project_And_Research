@@ -17,19 +17,19 @@ clock = pygame.time.Clock()
 snakes = [[5,10]]
 direction = "right"
 
-# Spawn táo ở safe zone
+# Spawn apple in safe zone
 apple = [randint(1,18), randint(1,18)]
 font_small = pygame.font.SysFont('sans', 20)
 font_big = pygame.font.SysFont('sans', 50)
 score = 0
 pausing = False
 
-# ----- AI: đi gần táo nhưng kiểm tra an toàn -----
+# ----- AI: move towards apple but check safety -----
 def safe_ai(head, apple, current_dir, body):
     hx, hy = head
     ax, ay = apple
 
-    # Tạo danh sách hướng ưu tiên theo khoảng cách
+    # Create a priority list of directions based on distance
     directions = []
     if abs(ax - hx) > abs(ay - hy):
         if ax > hx: directions.append("right")
@@ -42,12 +42,12 @@ def safe_ai(head, apple, current_dir, body):
         if ax > hx: directions.append("right")
         if ax < hx: directions.append("left")
 
-    # Thêm các hướng còn lại nếu ưu tiên không đi được
+    # Add remaining directions if the priority ones are blocked
     for d in ["up","down","left","right"]:
         if d not in directions:
             directions.append(d)
 
-    # Kiểm tra từng hướng xem có an toàn không
+    # Check each direction for safety
     for d in directions:
         if d == "right" and current_dir != "left":
             nx, ny = hx+1, hy
@@ -60,14 +60,13 @@ def safe_ai(head, apple, current_dir, body):
         else:
             continue
 
-        # An toàn nếu trong lưới và không đụng thân
+        # Safe if inside grid and not hitting the body
         if 0 <= nx <= 19 and 0 <= ny <= 19 and [nx, ny] not in body:
             return d
 
-    # Fallback: giữ nguyên hướng
+    # Fallback: keep current direction
     return current_dir
-# ------------------------------------------------------------
-
+    
 while running:
     clock.tick(60)
     screen.fill(BLACK)
@@ -75,7 +74,7 @@ while running:
     tail_x = snakes[0][0]
     tail_y = snakes[0][1]
 
-    # --- CẬP NHẬT HƯỚNG BẰNG AI trước khi rắn di chuyển ---
+    #  UPDATE DIRECTION USING AI before snake moves ---
     if not pausing:
         direction = safe_ai(snakes[-1], apple, direction, snakes)
 
@@ -86,7 +85,7 @@ while running:
     # Draw apple
     pygame.draw.rect(screen, RED, (apple[0]*30, apple[1]*30, 30, 30))
 
-    # Snake move
+    # Snake movement
     if not pausing:
         if direction == "right":
             snakes.append([snakes[-1][0]+1, snakes[-1][1]])
@@ -98,17 +97,17 @@ while running:
             snakes.append([snakes[-1][0], snakes[-1][1]+1])
         snakes.pop(0)
 
-    # check eat apple
+    # Check if apple is eaten
     if snakes[-1][0] == apple[0] and snakes[-1][1] == apple[1]:
         snakes.insert(0,[tail_x,tail_y])
         apple = [randint(1,18), randint(1,18)]
         score += 1
 
-    # check crash with edge
+    # Check collision with edges
     if snakes[-1][0] < 0 or snakes[-1][0] > 19 or snakes[-1][1] < 0 or snakes[-1][1] > 19:
         pausing = True
 
-    # check crash with body
+    # Check collision with body
     for i in range(len(snakes)-1):
         if snakes[-1][0] == snakes[i][0] and snakes[-1][1] == snakes[i][1]:
             pausing = True

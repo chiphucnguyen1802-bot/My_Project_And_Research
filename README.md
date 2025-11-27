@@ -1,88 +1,58 @@
-# 🐍 Snake Game (Python + Pygame)
+Snake AI Demo
 
-A simple **Snake game** written in Python using **Pygame**.  
-This console + graphical game demonstrates basic game development concepts such as loops, collision detection, grid systems, and modular code design.
+Description
 
----
+This is a Snake game implemented in Python using Pygame.
+In addition to the basic movement mechanics, the game features a simple AI that automatically controls the snake to eat apples.
 
-## 🎮 How to Play
-1. Run the game in terminal.
-2. Use arrow keys to control the snake:
-   - Up Arrow → move up
-   - Down Arrow → move down
-   - Left Arrow → move left
-   - Right Arrow → move right
-3. Eat the red apples to grow and gain points.
-4. Avoid:
-   - Hitting the walls
-   - Colliding with yourself
-5. Game over occurs on collision. Press **Space** to restart.
+The snake moves on a 20x20 grid
 
----
+Apples spawn randomly in a safe zone, avoiding corners and edges to allow the AI to survive longer
 
-## 📁 Files
-- `main.py` – main Python file to run the game  
-- `snake.py` – contains Snake game logic and class  
-- `config.py` – contains settings like colors, screen size, FPS  
-- `README.md` – this file
+The snake grows longer when it eats an apple
 
----
+The game ends if the snake hits the wall or itself
 
-## ▶️ Run
-1. Make sure you have **Python 3** installed.
-2. Install **Pygame** if not installed:
+Features
+1. AI-controlled snake
 
-```bash
-pip install pygame
-🧠 How It Works
+Greedy AI: the snake always chooses the direction that moves it closer to the apple
 
-SnakeGame class in snake.py handles:
+Safety check: before moving, the AI ensures it does not hit the wall or its own body
 
-Snake movement
+Fallback logic: if the preferred direction is blocked, the AI selects an alternative safe direction
 
-Apple spawning
+Helps the snake survive longer and eat more apples compared to manual play
 
-Collision detection (walls and self)
+2. Gameplay
 
-Score tracking
+Manual control using arrow keys
 
-Resetting the game
+Press Space to restart after game over
 
-main.py handles:
+Score is displayed continuously on the screen
 
-Rendering the game grid
+Requirements
 
-Drawing snake and apple
+Python 3.x
 
-Capturing keyboard events
+Pygame (pip install pygame)
 
-Main game loop
+How to run
+git clone <repo-url>
+cd snake-ai-demo
+python snake_ai.py
 
-Game speed increases slightly with higher score to increase difficulty.
+AI Demo
 
-✨ Features
+The AI calculates the movement direction every frame
 
-Start menu with Press Space to Start
+The AI minimizes the risk of crashing into walls or its own body
 
-Score display in real-time
+Can demonstrate that AI plays more consistently than humans over multiple games
 
-Smooth movement using Pygame clock
+Notes
 
-Snake grows when eating apple
+The current AI is rule-based and does not use machine learning
 
-Restart game after Game Over
-
-Modular code design for readability
-
-🧠 Future Improvements
-
-Add sound effects when eating apple
-
-High score system
-
-Snake skins or graphical improvements
-
-Multiple levels or obstacles
-Author
-
-Nguyen Chi Phuc, 2025
+For a more advanced version, you can implement Q-learning or BFS/A* pathfinding so the snake learns how to survive and eat as many apples as possible

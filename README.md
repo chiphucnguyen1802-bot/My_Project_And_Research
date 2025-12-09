@@ -1,4 +1,4 @@
-🐍 Snake AI Demo
+# 🐍 Snake AI Demo
 
 Overview
 
